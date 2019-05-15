@@ -25,32 +25,32 @@ data "vsphere_resource_pool" "pool" {
 
 data "vsphere_host" "host" {
   name          = "${var.vhost}"
-  datacenter_id = "${data.vsphere_datacenter.dc.id}"
+  datacenter_id = "${data.vsphere_datacenter.vdc.id}"
 }
 
 # Retrieve datastore information on vsphere
 data "vsphere_datastore" "datastore" {
   name          = "${var.vdatastore}"
-  datacenter_id = "${data.vsphere_datacenter.dc.id}"
+  datacenter_id = "${data.vsphere_datacenter.vdc.id}"
 }
 
 # Retrieve network information on vsphere
 data "vsphere_network" "vmnetwork" {
   name          = "${var.vmnetwork}"
-  datacenter_id = "${data.vsphere_datacenter.dc.id}"
+  datacenter_id = "${data.vsphere_datacenter.vdc.id}"
 }
 
 # Retrieve template information on vsphere
 data "vsphere_virtual_machine" "vmtemplate" {
   name          = "${var.vmtemplate}"
-  datacenter_id = "${data.vsphere_datacenter.dc.id}"
+  datacenter_id = "${data.vsphere_datacenter.vdc.id}"
 }
 
 #### VM CREATION ####
 
 # Set vm parameters
-resource "vsphere_virtual_machine" "vm-one" {
-  name             = "vm-one"
+resource "vsphere_virtual_machine" "vm" {
+  name             = "${var.guestname}"
   num_cpus         = 2
   memory           = 4096
   datastore_id     = "${data.vsphere_datastore.datastore.id}"
@@ -61,7 +61,7 @@ resource "vsphere_virtual_machine" "vm-one" {
 
   # Set network parameters
   network_interface {
-    network_id = "${data.vsphere_network.network.id}"
+    network_id = "${data.vsphere_network.vmnetwork.id}"
   }
 
   # Template should have a main disk associated
