@@ -1,11 +1,6 @@
-# Basic configuration withour variables
-
 # Define authentification configuration
+
 provider "vsphere" {
-  # If you use a domain set your login like this "MyDomain\\MyUser"
-
-  # user           = "${var.vsphere_user}"    # password       = "${var.vsphere_password}"    # vsphere_server = "${var.vsphere_server}"
-
   # if you have a self-signed cert
   allow_unverified_ssl = true
 }
@@ -49,14 +44,15 @@ data "vsphere_virtual_machine" "vmtemplate" {
 
 # Set vm parameters
 resource "vsphere_virtual_machine" "vm" {
-  name             = "${var.guestname}"
-  num_cpus         = 2
-  memory           = 4096
-  datastore_id     = "${data.vsphere_datastore.datastore.id}"
-  host_system_id   = "${data.vsphere_host.host.id}"
-  resource_pool_id = "${data.vsphere_resource_pool.pool.id}"
-  guest_id         = "${data.vsphere_virtual_machine.vmtemplate.guest_id}"
-  scsi_type        = "${data.vsphere_virtual_machine.vmtemplate.scsi_type}"
+  name           = "${var.guestname}"
+  num_cpus       = 2
+  memory         = 4096
+  datastore_id   = "${data.vsphere_datastore.datastore.id}"
+  host_system_id = "${data.vsphere_host.host.id}"
+
+  #resource_pool_id = "${data.vsphere_resource_pool.pool.id}"
+  guest_id  = "${data.vsphere_virtual_machine.vmtemplate.guest_id}"
+  scsi_type = "${data.vsphere_virtual_machine.vmtemplate.scsi_type}"
 
   # Set network parameters
   network_interface {
