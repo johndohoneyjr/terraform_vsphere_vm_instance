@@ -16,11 +16,11 @@ data "vsphere_datacenter" "vdc" {
   name = "${var.vsphere_dc}"
 }
 
-data "vsphere_resource_pool" "pool" {
-  # If you haven't resource pool, put "Resources" after cluster name
-  name          = "${var.vsphere_dc}/Resources"
-  datacenter_id = "${data.vsphere_datacenter.vdc.id}"
-}
+# data "vsphere_resource_pool" "pool" {
+#   # If you haven't resource pool, put "Resources" after cluster name
+#   name          = "${var.vsphere_dc}/Resources"
+#   datacenter_id = "${data.vsphere_datacenter.vdc.id}"
+# }
 
 data "vsphere_host" "host" {
   name          = "${var.vhost}"
@@ -65,8 +65,8 @@ resource "vsphere_virtual_machine" "vm" {
 
   # Template should have a main disk associated
   disk {
-    name = "${var.guestname}-sda.vmdk"
-    size = "16"
+    label = "${var.guestname}-sda.vmdk"
+    size  = "16"
   }
 
   clone {

@@ -1,16 +1,4 @@
-# Variables for deploying an Azure virtual machine instance
-
-# variable "vcenter_user" {
-#   description = "The user account for vCenter"
-# }
-
-# variable "vcenter_passwd" {
-#   description = "The vCenter user account password"
-# }
-
-# variable "vcenter_address" {
-#   description = "IP Address where vCenter resides"
-# }
+# Variables for deploying an vSphere virtual machine instance
 
 variable "vsphere_dc" {
   description = "The vSphere datacenter name"
