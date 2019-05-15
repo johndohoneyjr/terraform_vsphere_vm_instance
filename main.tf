@@ -1,21 +1,13 @@
-# Define authentification configuration
-
 provider "vsphere" {
-  # if you have a self-signed cert
+  # if you have a self-signed cert on vCenter
   allow_unverified_ssl = true
 }
 
-#### RETRIEVE DATA INFORMATION ON VCENTER ####
+#Pull data on existing vSphere environment
 
 data "vsphere_datacenter" "vdc" {
   name = "${var.vsphere_dc}"
 }
-
-# data "vsphere_resource_pool" "pool" {
-#   # If you haven't resource pool, put "Resources" after cluster name
-#   name          = "${var.vsphere_dc}/Resources"
-#   datacenter_id = "${data.vsphere_datacenter.vdc.id}"
-# }
 
 data "vsphere_compute_cluster" "cluster" {
   name          = "${var.vsphere_cluster}"
@@ -27,27 +19,27 @@ data "vsphere_host" "host" {
   datacenter_id = "${data.vsphere_datacenter.vdc.id}"
 }
 
-# Retrieve datastore information on vsphere
+# Pull the datastore id
 data "vsphere_datastore" "datastore" {
   name          = "${var.vdatastore}"
   datacenter_id = "${data.vsphere_datacenter.vdc.id}"
 }
 
-# Retrieve network information on vsphere
+# Pull network information
 data "vsphere_network" "vmnetwork" {
   name          = "${var.vmnetwork}"
   datacenter_id = "${data.vsphere_datacenter.vdc.id}"
 }
 
-# Retrieve template information on vsphere
+# Pull template information on desired template
 data "vsphere_virtual_machine" "vmtemplate" {
   name          = "${var.vmtemplate}"
   datacenter_id = "${data.vsphere_datacenter.vdc.id}"
 }
 
-#### VM CREATION ####
+# Create the VM
 
-# Set vm parameters
+# Set vm resource parameters
 resource "vsphere_virtual_machine" "vm" {
   name             = "${var.guestname}"
   num_cpus         = 2
@@ -63,7 +55,7 @@ resource "vsphere_virtual_machine" "vm" {
     network_id = "${data.vsphere_network.vmnetwork.id}"
   }
 
-  # Template should have a main disk associated
+  # Template main disk
   disk {
     label = "${var.guestname}-sda.vmdk"
     size  = "16"
