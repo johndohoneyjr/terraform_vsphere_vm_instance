@@ -42,7 +42,7 @@ data "vsphere_virtual_machine" "vmtemplate" {
 # Set vm resource parameters
 resource "vsphere_virtual_machine" "vm" {
   name             = "${var.guestname}"
-  num_cpus         = 2
+  num_cpus         = 5
   memory           = 4096
   datastore_id     = "${data.vsphere_datastore.datastore.id}"
   host_system_id   = "${data.vsphere_host.host.id}"
