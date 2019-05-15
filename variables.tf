@@ -5,6 +5,11 @@ variable "vsphere_dc" {
   default     = "PacketDatacenter"
 }
 
+variable "vsphere_cluster" {
+  description = "The cluster name"
+  default     = "MainCluster"
+}
+
 variable "vhost" {
   description = "Name or IP address of ESXi host"
   default     = "10.100.0.2"

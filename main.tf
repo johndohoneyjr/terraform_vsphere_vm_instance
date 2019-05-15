@@ -17,6 +17,11 @@ data "vsphere_datacenter" "vdc" {
 #   datacenter_id = "${data.vsphere_datacenter.vdc.id}"
 # }
 
+data "vsphere_compute_cluster" "cluster" {
+  name          = "${var.vsphere_cluster}"
+  datacenter_id = "${data.vsphere_datacenter.vdc.id}"
+}
+
 data "vsphere_host" "host" {
   name          = "${var.vhost}"
   datacenter_id = "${data.vsphere_datacenter.vdc.id}"
@@ -44,15 +49,14 @@ data "vsphere_virtual_machine" "vmtemplate" {
 
 # Set vm parameters
 resource "vsphere_virtual_machine" "vm" {
-  name           = "${var.guestname}"
-  num_cpus       = 2
-  memory         = 4096
-  datastore_id   = "${data.vsphere_datastore.datastore.id}"
-  host_system_id = "${data.vsphere_host.host.id}"
-
-  #resource_pool_id = "${data.vsphere_resource_pool.pool.id}"
-  guest_id  = "${data.vsphere_virtual_machine.vmtemplate.guest_id}"
-  scsi_type = "${data.vsphere_virtual_machine.vmtemplate.scsi_type}"
+  name             = "${var.guestname}"
+  num_cpus         = 2
+  memory           = 4096
+  datastore_id     = "${data.vsphere_datastore.datastore.id}"
+  host_system_id   = "${data.vsphere_host.host.id}"
+  resource_pool_id = "${data.vsphere_compute_cluster.cluster.resource_pool_id}"
+  guest_id         = "${data.vsphere_virtual_machine.vmtemplate.guest_id}"
+  scsi_type        = "${data.vsphere_virtual_machine.vmtemplate.scsi_type}"
 
   # Set network parameters
   network_interface {
