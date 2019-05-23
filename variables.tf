@@ -7,7 +7,7 @@ variable "vsphere_dc" {
 
 variable "vsphere_cluster" {
   description = "The cluster name"
-  default     = "DohoneyCluster"
+  default     = "MainCluster"
 }
 
 variable "vhost" {
