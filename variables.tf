@@ -7,7 +7,7 @@ variable "vsphere_dc" {
 
 variable "vsphere_cluster" {
   description = "The cluster name"
-  default     = "DohoneyCluster"
+  default     = "MainCluster"
 }
 
 variable "vhost" {
@@ -32,5 +32,5 @@ variable "vmtemplate" {
 
 variable "guestname" {
   description = "Name of virtual machine"
-  default     = "dohoney-ubuntu-sandbox"
+  default     = "beau-ubuntu-sandbox"
 }
